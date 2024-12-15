@@ -44,16 +44,19 @@ function printBanner() {
     global $green;
     $banner = "
 -------------------------------------------------
-█░█ █░░ ▀█▀ █▀█ ▄▀█   █░█ █ █▀█
-█▄█ █▄▄ ░█░ █▀▄ █▀█   ▀▄▀ █ █▀▀
+███    ███ ██████  ██████      ████████ ███████  ██████ ██   ██ 
+████  ████ ██   ██ ██   ██        ██    ██      ██      ██   ██ 
+██ ████ ██ ██████  ██████         ██    █████   ██      ███████ 
+██  ██  ██ ██   ██ ██             ██    ██      ██      ██   ██ 
+██      ██ ██   ██ ██             ██    ███████  ██████ ██   ██                     
 -------------------------------------------------
 
-     - NOT PIXEL VIP 30$ -
+     - NOT PIXEL VIP SCRIPT -
      - 100% ANTI-BAN -
      
-- CREATE BY : ULTRA SQUAD OFFICIAL
-- Telegram: @alleaarning36
-- channel: https://t.me/alleaarning36 
+- CREATE BY : MRP Tech
+- Telegram: @mrptechofficial
+- channel: https://t.me/mrptechofficial
  
 - PX Points will be added to your account within 20 seconds.
 - So Wait Sometimes.
