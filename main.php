@@ -210,5 +210,5 @@ while (true) {
         $reqHeaders = $headers[$userId];
         
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $reward);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true
+curl_setopt($ch, CURLOPT_URL, $reward);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
