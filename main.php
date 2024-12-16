@@ -43,22 +43,23 @@ $blue = "34";
 function printBanner() {
     global $green;
     $banner = "
--------------------------------------------------
-    __  ______  ___    ______        __ 
-  /  |/  / _ \/ _ \  /_  __/__ ____/ / 
- / /|_/ / , _/ ___/   / / / -_) __/ _ \
-/_/  /_/_/|_/_/      /_/  \__/\__/_//_/           
--------------------------------------------------
-
-     - NOT PIXEL VIP SCRIPT -
-     - 100% ANTI-BAN -
+╔════════════════════════════════════════════════════╗
+║ ████████╗██╗████████╗██╗███╗   ██╗ █████╗  █████╗   ║
+║ ╚══██╔══╝██║╚══██╔══╝██║████╗  ██║██╔══██╗██╔══██╗  ║
+║    ██║   ██║   ██║   ██║██╔██╗ ██║███████║███████║  ║
+║    ██║   ██║   ██║   ██║██║╚██╗██║██╔══██║██╔══██║  ║
+║    ██║   ██║   ██║   ██║██║ ╚████║██║  ██║██║  ██║  ║
+║    ╚═╝   ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝  ║
+╚════════════════════════════════════════════════════╝
+     - MY SCRIPT -
+     - ANTI-BAN -
      
-- CREATE BY : MRP Tech
-- Telegram: @mrptechofficial
-- channel: https://t.me/mrptechofficial
+- REMODIFIED BY TITANIC
+- Telegram: @Titanic_Helper
+- Channel: https://t.me/Titanic_Helpers
  
-- PX Points will be added to your account within 20 seconds.
-- So Wait Sometimes.
+- Points will be added to your account within 10 seconds.
+- Thanks.
 
 -------------------------------------------------
 
@@ -88,21 +89,20 @@ function generateChatInstance() {
 
 // Function to make API request
 function makeApiRequest($userId, $tgId) {
-    $url = "https://api.adsgram.ai/adv?blockId=4853&tg_id=$tgId&tg_platform=android&platform=Linux%20aarch64&language=en&chat_type=sender&chat_instance=" . generateChatInstance() . "&top_domain=app.notpx.app";
+    $url = "https://api.example.app/adv?blockId=4853&tg_id=$tgId&tg_platform=android&platform=Linux%20aarch64&language=en&chat_type=sender&chat_instance=" . generateChatInstance() . "&top_domain=app.example.app";
     
     $userAgent = generateUserAgent();
-    $baseUrl = "https://app.notpx.app/";
+    $baseUrl = "https://app.example.app/";
     
     $headers = [
-        'Host: api.adsgram.ai',
+        'Host: api.example.app',
         'Connection: keep-alive', 
         'Cache-Control: max-age=0',
         'sec-ch-ua-platform: "Android"',
         "User-Agent: $userAgent",
-        'sec-ch-ua: "Android WebView";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
         'sec-ch-ua-mobile: ?1',
         'Accept: */*',
-        'Origin: https://app.notpx.app',
+        'Origin: https://app.example.app',
         'X-Requested-With: org.telegram.messenger',
         'Sec-Fetch-Site: cross-site',
         'Sec-Fetch-Mode: cors',
@@ -149,7 +149,7 @@ while (true) {
             echo printColored("---> $userId +{$userPoints[$userId]} PX\n", $green);
         }
         echo "\n";
-        echo printColored("Total PX Earned [ +$totalPoints ]\n\n", $green);
+        echo printColored("Total PX [ +$totalPoints ]\n\n", $green);
     }
 
     $rewards = [];
@@ -158,8 +158,8 @@ while (true) {
     foreach ($users as $userId => $userData) {
         $tgId = $userData['tg_id'];
         
-        echo printColored("[ INFO ] Starting NOT PIXEL Engine\n", $yellow);
-        echo printColored("[ PROCESS ] Injecting V1 ---> TG ID | $userId ...\n", $blue);
+        echo printColored("[ INFO ] Starting Script \n", $yellow);
+        echo printColored("[ PROCESS ] Sending Px ---> TG ID | $userId ...\n", $blue);
         
         sleep(3);
         
@@ -170,22 +170,16 @@ while (true) {
             if ($reward) {
                 $rewards[$userId] = $reward;
                 $headers[$userId] = $reqHeaders;
-                echo printColored("[ SUCCESS ] ++ Injected to $userId.\n", $green);
+                echo printColored("[ SUCCESS ] ++ Sending to $userId.\n", $green);
             } else {
-                echo printColored("[ ERROR ] Ads watching limit reached.\n", $red);
-                echo printColored("[ SOLUTION ] Try VPN or wait for 24 hours.\nUse Proton VPN install it from play store.\n", $green);
-                echo printColored("[ REPORT ] If facing issue again and again Send Details and ScreenShot Contact Developer Telegram @mosibur_paik\n", $yellow);
+                echo printColored("[ ERROR ] Ads limit reached.\n", $red);
                 continue;
             }
         } elseif ($httpCode === 403) {
             echo printColored("[ ERROR ] Seems like your IP address is banned\n", $red);
-            echo printColored("[ SOLUTION ] Use Proton VPN install it from play store.\n", $yellow);
+            echo printColored("[ SOLUTION ] Use Proton VPN install it from Play Store.\n", $yellow);
             exit;
         } else {
-            if ($httpCode === 400 && strpos($response, 'block_error') !== false) {
-                echo printColored("[ ERROR ] Ads Block error - Ignore it will be fixed automatically -\n", $red);
-                continue;
-            }
             echo printColored("[ ERROR ] HTTP Error: $httpCode\n", $red);
             continue;
         }
@@ -198,7 +192,7 @@ while (true) {
     echo "\n";
 
     foreach ($rewards as $userId => $reward) {
-        echo printColored("[ PROCESS ] Injecting V2 ---> $userId ]\n", $yellow);
+        echo printColored("[ PROCESS ] Sending Done ---> $userId ]\n", $yellow);
         
         $reqHeaders = $headers[$userId];
         
@@ -215,7 +209,7 @@ while (true) {
             $userPoints[$userId] += 16;
             echo printColored("[ SUCCESS ] ++ $userId +16 PX\n", $green);
         } else {
-            echo printColored("[ ERROR ] Failed to inject for $userId. HTTP Code: $httpCode\n", $red);
+            echo printColored("[ ERROR ] Failed to Send for $userId. HTTP Code: $httpCode\n", $red);
         }
     }
 
