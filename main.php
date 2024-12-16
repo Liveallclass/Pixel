@@ -42,27 +42,23 @@ $blue = "34";
 // Function to print banner
 function printBanner() {
     global $green;
-    $banner = "
-╔════════════════════════════════════════════════════╗
-║ ████████╗██╗████████╗██╗███╗   ██╗ █████╗  █████╗   ║
-║ ╚══██╔══╝██║╚══██╔══╝██║████╗  ██║██╔══██╗██╔══██╗  ║
-║    ██║   ██║   ██║   ██║██╔██╗ ██║███████║███████║  ║
-║    ██║   ██║   ██║   ██║██║╚██╗██║██╔══██║██╔══██║  ║
-║    ██║   ██║   ██║   ██║██║ ╚████║██║  ██║██║  ██║  ║
-║    ╚═╝   ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝  ║
-╚════════════════════════════════════════════════════╝
-     - MY SCRIPT -
-     - ANTI-BAN -
+    $banner = " N   N  OOO  TTTTT      P   P  III  X   X  EEEEE  L
+ NN  N O   O   T        P   P   I    X X   E      L
+ N N N O   O   T        PPPPP   I    X     EEEE   L
+ N  NN O   O   T        P       I    X X   E      L
+ N   N  OOO    T        P      III   X   X  EEEEE  LLLLL
+
+     - NOT PIXEL VIP SCRIPT -
+     - 100% ANTI-BAN -
      
-- REMODIFIED BY TITANIC
+- Created By : Titanic Helper
 - Telegram: @Titanic_Helper
-- Channel: https://t.me/Titanic_Helpers
+- channel: https://t.me/Titanic_Helpers
  
-- Points will be added to your account within 10 seconds.
-- Thanks.
+- PX Points will be added to your account within 20 seconds.
+- So Wait Sometimes.
 
 -------------------------------------------------
-
 ";
     echo printColored($banner, $green);
 }
@@ -87,22 +83,23 @@ function generateChatInstance() {
     return strval(rand(10000000000000, 99999999999999));
 }
 
-// Function to make API request
+// Function to make API request with added fixes
 function makeApiRequest($userId, $tgId) {
-    $url = "https://api.example.app/adv?blockId=4853&tg_id=$tgId&tg_platform=android&platform=Linux%20aarch64&language=en&chat_type=sender&chat_instance=" . generateChatInstance() . "&top_domain=app.example.app";
+    $url = "https://api.adsgram.ai/adv?blockId=4853&tg_id=$tgId&tg_platform=android&platform=Linux%20aarch64&language=en&chat_type=sender&chat_instance=" . generateChatInstance() . "&top_domain=app.notpx.app";
     
     $userAgent = generateUserAgent();
-    $baseUrl = "https://app.example.app/";
+    $baseUrl = "https://app.notpx.app";
     
     $headers = [
-        'Host: api.example.app',
+        'Host: api.adsgram.ai',
         'Connection: keep-alive', 
         'Cache-Control: max-age=0',
         'sec-ch-ua-platform: "Android"',
         "User-Agent: $userAgent",
+        'sec-ch-ua: "Android WebView";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
         'sec-ch-ua-mobile: ?1',
         'Accept: */*',
-        'Origin: https://app.example.app',
+        'Origin: https://app.notpx.app',
         'X-Requested-With: org.telegram.messenger',
         'Sec-Fetch-Site: cross-site',
         'Sec-Fetch-Mode: cors',
@@ -116,14 +113,29 @@ function makeApiRequest($userId, $tgId) {
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    // Disable SSL verification
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+    // Set timeout to 30 seconds
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30); 
+
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error = curl_error($ch);  // Get any error messages if there are issues
+
     curl_close($ch);
+
+    // Check for cURL errors
+    if ($error) {
+        echo printColored("[ ERROR ] cURL Error: $error\n", $red);
+    }
 
     return [$response, $httpCode, $headers];
 }
 
-// Function to extract reward value
+// Function to handle the response and extract rewards
 function extractReward($response) {
     $data = json_decode($response, true);
     if ($data && isset($data['banner']['trackings'])) {
@@ -149,7 +161,7 @@ while (true) {
             echo printColored("---> $userId +{$userPoints[$userId]} PX\n", $green);
         }
         echo "\n";
-        echo printColored("Total PX [ +$totalPoints ]\n\n", $green);
+        echo printColored("Total PX Earned [ +$totalPoints ]\n\n", $green);
     }
 
     $rewards = [];
@@ -158,11 +170,11 @@ while (true) {
     foreach ($users as $userId => $userData) {
         $tgId = $userData['tg_id'];
         
-        echo printColored("[ INFO ] Starting Script \n", $yellow);
-        echo printColored("[ PROCESS ] Sending Px ---> TG ID | $userId ...\n", $blue);
+        echo printColored("[ INFO ] Starting NOT PIXEL Engine\n", $yellow);
+        echo printColored("[ PROCESS ] Injecting V1 ---> TG ID | $userId ...\n", $blue);
         
         sleep(3);
-        
+
         list($response, $httpCode, $reqHeaders) = makeApiRequest($userId, $tgId);
         
         if ($httpCode === 200) {
@@ -170,14 +182,15 @@ while (true) {
             if ($reward) {
                 $rewards[$userId] = $reward;
                 $headers[$userId] = $reqHeaders;
-                echo printColored("[ SUCCESS ] ++ Sending to $userId.\n", $green);
+                echo printColored("[ SUCCESS ] ++ Injected to $userId.\n", $green);
             } else {
-                echo printColored("[ ERROR ] Ads limit reached.\n", $red);
+                echo printColored("[ ERROR ] Ads watching limit reached.\n", $red);
+                echo printColored("[ SOLUTION ] Try VPN or wait for 24 hours.\nUse Proton VPN install it from play store.\n", $green);
                 continue;
             }
         } elseif ($httpCode === 403) {
             echo printColored("[ ERROR ] Seems like your IP address is banned\n", $red);
-            echo printColored("[ SOLUTION ] Use Proton VPN install it from Play Store.\n", $yellow);
+            echo printColored("[ SOLUTION ] Use Proton VPN install it from play store.\n", $yellow);
             exit;
         } else {
             echo printColored("[ ERROR ] HTTP Error: $httpCode\n", $red);
@@ -192,28 +205,10 @@ while (true) {
     echo "\n";
 
     foreach ($rewards as $userId => $reward) {
-        echo printColored("[ PROCESS ] Sending Done ---> $userId ]\n", $yellow);
+        echo printColored("[ PROCESS ] Injecting V2 ---> $userId ]\n", $yellow);
         
         $reqHeaders = $headers[$userId];
         
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $reward);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $reqHeaders);
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if ($httpCode === 200) {
-            $totalPoints += 16;
-            $userPoints[$userId] += 16;
-            echo printColored("[ SUCCESS ] ++ $userId +16 PX\n", $green);
-        } else {
-            echo printColored("[ ERROR ] Failed to Send for $userId. HTTP Code: $httpCode\n", $red);
-        }
-    }
-
-    $firstRun = false;
-}
-
-?>
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true
