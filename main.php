@@ -42,16 +42,15 @@ $blue = "34";
 // Function to print banner
 function printBanner() {
     global $green;
-    $banner = " N   N  OOO  TTTTT      P   P  III  X   X  EEEEE  L
- NN  N O   O   T        P   P   I    X X   E      L
- N N N O   O   T        PPPPP   I    X     EEEE   L
- N  NN O   O   T        P       I    X X   E      L
- N   N  OOO    T        P      III   X   X  EEEEE  LLLLL
-
-     - NOT PIXEL VIP SCRIPT -
-     - 100% ANTI-BAN -
+    $banner = "  _   _    _____  
+ | \ | |  |  __ \ 
+ |  \| |  | |__) |
+ | . ` |  |  ___/ 
+ | |\  |  | |     
+ |_| \_|  |_|     
+     - NOT PIXEL SAFE SCRIPT -
      
-- Created By : Titanic Helper
+- RECREATE BY : TITANIC
 - Telegram: @Titanic_Helper
 - channel: https://t.me/Titanic_Helpers
  
@@ -59,6 +58,7 @@ function printBanner() {
 - So Wait Sometimes.
 
 -------------------------------------------------
+
 ";
     echo printColored($banner, $green);
 }
@@ -83,12 +83,12 @@ function generateChatInstance() {
     return strval(rand(10000000000000, 99999999999999));
 }
 
-// Function to make API request with added fixes
+// Function to make API request
 function makeApiRequest($userId, $tgId) {
     $url = "https://api.adsgram.ai/adv?blockId=4853&tg_id=$tgId&tg_platform=android&platform=Linux%20aarch64&language=en&chat_type=sender&chat_instance=" . generateChatInstance() . "&top_domain=app.notpx.app";
     
     $userAgent = generateUserAgent();
-    $baseUrl = "https://app.notpx.app";
+    $baseUrl = "https://app.notpx.app/";
     
     $headers = [
         'Host: api.adsgram.ai',
@@ -113,29 +113,14 @@ function makeApiRequest($userId, $tgId) {
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-    // Disable SSL verification
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-
-    // Set timeout to 30 seconds
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30); 
-
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $error = curl_error($ch);  // Get any error messages if there are issues
-
     curl_close($ch);
-
-    // Check for cURL errors
-    if ($error) {
-        echo printColored("[ ERROR ] cURL Error: $error\n", $red);
-    }
 
     return [$response, $httpCode, $headers];
 }
 
-// Function to handle the response and extract rewards
+// Function to extract reward value
 function extractReward($response) {
     $data = json_decode($response, true);
     if ($data && isset($data['banner']['trackings'])) {
@@ -161,7 +146,7 @@ while (true) {
             echo printColored("---> $userId +{$userPoints[$userId]} PX\n", $green);
         }
         echo "\n";
-        echo printColored("Total PX Earned [ +$totalPoints ]\n\n", $green);
+        echo printColored("Total Pixel [ +$totalPoints ]\n\n", $green);
     }
 
     $rewards = [];
@@ -170,11 +155,11 @@ while (true) {
     foreach ($users as $userId => $userData) {
         $tgId = $userData['tg_id'];
         
-        echo printColored("[ INFO ] Starting NOT PIXEL Engine\n", $yellow);
-        echo printColored("[ PROCESS ] Injecting V1 ---> TG ID | $userId ...\n", $blue);
+        echo printColored("[ INFO ] Starting Script\n", $yellow);
+        echo printColored("[ PROCESS ] Sending ---> ID | $userId ...\n", $blue);
         
         sleep(3);
-
+        
         list($response, $httpCode, $reqHeaders) = makeApiRequest($userId, $tgId);
         
         if ($httpCode === 200) {
@@ -184,15 +169,20 @@ while (true) {
                 $headers[$userId] = $reqHeaders;
                 echo printColored("[ SUCCESS ] ++ Injected to $userId.\n", $green);
             } else {
-                echo printColored("[ ERROR ] Ads watching limit reached.\n", $red);
-                echo printColored("[ SOLUTION ] Try VPN or wait for 24 hours.\nUse Proton VPN install it from play store.\n", $green);
+                echo printColored("[ ERROR ] limit reached.\n", $red);
+                echo printColored("[ SOLUTION ] Try VPN .\nUse VPN .\n", $green);
+                echo printColored("[ REPORT ] If facing issue again and again Contact @Titanic_Helper\n", $yellow);
                 continue;
             }
         } elseif ($httpCode === 403) {
-            echo printColored("[ ERROR ] Seems like your IP address is banned\n", $red);
-            echo printColored("[ SOLUTION ] Use Proton VPN install it from play store.\n", $yellow);
+            echo printColored("[ ERROR ] your IP address is banned\n", $red);
+            echo printColored("[ SOLUTION ] Use VPN .\n", $yellow);
             exit;
         } else {
+            if ($httpCode === 400 && strpos($response, 'block_error') !== false) {
+                echo printColored("[ ERROR ] Ads Block error - Ignore it  -\n", $red);
+                continue;
+            }
             echo printColored("[ ERROR ] HTTP Error: $httpCode\n", $red);
             continue;
         }
@@ -205,10 +195,28 @@ while (true) {
     echo "\n";
 
     foreach ($rewards as $userId => $reward) {
-        echo printColored("[ PROCESS ] Injecting V2 ---> $userId ]\n", $yellow);
+        echo printColored("[ PROCESS ] Sending  ---> $userId ]\n", $yellow);
         
         $reqHeaders = $headers[$userId];
         
         $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $reward);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $reward);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $reqHeaders);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode === 200) {
+            $totalPoints += 16;
+            $userPoints[$userId] += 16;
+            echo printColored("[ SUCCESS ] ++ $userId +16 PX\n", $green);
+        } else {
+            echo printColored("[ ERROR ] Failed to inject for $userId. HTTP Code: $httpCode\n", $red);
+        }
+    }
+
+    $firstRun = false;
+}
+
+?>
